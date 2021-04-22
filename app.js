@@ -47,12 +47,12 @@ function variables_read() {
 
 //container show
 function shownotes()
-{
+{ 
     variables_read();
     let html = "";
     abj.forEach(function (element,index) {
         
-        html += `  <div class="cards my-2 mx-2 card" style="width: 18rem;">
+        html += `  <div class="cards my-2 mx-2 card" style="width: 18rem;"> 
          <div class="card-body">
         <h5 class="card-title">Your note ${index+1}</h5>
         <p class="card-text" id=>${element}
