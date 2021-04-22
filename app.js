@@ -1,5 +1,10 @@
 console.log("hi");
 let abj = [];
+let time = [];
+
+let hour, second, minute;
+
+
 shownotes();
 //localStorage.removeItem('notes',abj[0]);
 document.getElementById("addBtn").addEventListener("click", print);
@@ -7,6 +12,7 @@ document.getElementById("addBtn").addEventListener("click", print);
 
 //printing funtion
 function print() {
+   
     note.innerHTML = '<b style="color:green" ">Added</b>';
     onclick = setTimeout(myFunction, 3000);
     console.log("hi click");
@@ -29,10 +35,44 @@ function print() {
         localStorage.setItem("notes", JSON.stringify(abj));
         addTxt.value = "";
     }
+  
+    dateMaker();
     shownotes();
+   
 }
+//MAKER DATE
+function  dateMaker()
+{
+    let date = new Date();
+    hour = date.getHours();
+    minute = date.getMinutes();
+    second = date.getSeconds();
+    if (hour > 12) {
+        hour = Math.abs(12 - hour);
+    }
+    else if (hour == 0)
+        hour = 12;
+    
+        let date_from_local = localStorage.getItem("date");
+        if (date_from_local == null) {
+            time = [];
+        }
+       else 
+       {
+           time = JSON.parse(date_from_local);
+       }
+ 
+    let H_m_s = `${hour} : ${minute} : ${second}`;
+    console.log(H_m_s)
+    time.push(H_m_s);
+    localStorage.setItem("date", JSON.stringify(time));
+    console.log(hour)
+    console.log(minute)   
+     console.log(second) 
 
 
+
+}
 //local to adj array
 function variables_read() {
 
@@ -41,6 +81,11 @@ function variables_read() {
     if (Lnote == null)
         abj = [];
     else abj = JSON.parse(Lnote);
+
+    let local_time_array = localStorage.getItem("date");
+    if (local_time_array == null)
+        time = [];
+    else time = JSON.parse(local_time_array);
 
 }
 
@@ -55,6 +100,7 @@ function shownotes()
         html += `  <div class="cards my-2 mx-2 card" style="width: 18rem;"> 
          <div class="card-body">
         <h5 class="card-title">Your note ${index+1}</h5>
+        <h7 class="card-title"><b>Time:</b> ${time[index]}</h7>
         <p class="card-text" id=>${element}
          </p>
        
@@ -80,7 +126,9 @@ function myFunction() {
 function Delete(index)
 {
     abj.splice(index, 1);
+    time.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(abj));
+    localStorage.setItem('date', JSON.stringify(time));
     shownotes();
 }
 
